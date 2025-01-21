@@ -47,5 +47,8 @@
     <ClInclude Include="Intersection_manager.h">
       <Filter>Intersection manager</Filter>
     </ClInclude>
+    <ClInclude Include="exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
