@@ -15,7 +15,7 @@ TEST(NonIntersect3D, Test2)
 {
 	Segment3D seg1{ Vector3D{0,0,0}, Vector3D{1,0,0} };
 	Segment3D seg2{ Vector3D{0,1,0}, Vector3D{1,1,0} };
-	ASSERT_THROW(Intersection_manager::Intersect(seg1, seg2), NotIntersect);
+	ASSERT_THROW(Intersection_manager::Intersect(seg1, seg2), CollinearExp);
 }
 
 TEST(NonIntersect3D, Test3)
@@ -69,8 +69,7 @@ TEST(Intersect2D, Test1)
 {
 	Segment3D seg1{ Vector3D{0.0,0.0,0.0}, Vector3D{1.0,1.0,0.0} };
 	Segment3D seg2{ Vector3D{1.0,1.0,0.0}, Vector3D{2.0,2.0,0.0} };
-	std::optional<Vector3D> intersect_point = Intersection_manager::Intersect(seg1, seg2);
-	ASSERT_TRUE(intersect_point.has_value());
+	ASSERT_THROW(Intersection_manager::Intersect(seg1, seg2), CollinearExp);
 }
 
 TEST(Intersect2D, Test2)

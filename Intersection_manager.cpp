@@ -15,10 +15,11 @@ std::optional<Vector3D> Intersection_manager::Intersect(const Segment3D& first, 
 	Vector3D v3 = second.get_start_vector();
 	Vector3D v4 = second.get_end_vector();
 
-	if (fabs((v2.get_x()-v1.get_x())/(v4.get_x()-v3.get_x())-
-		(v2.get_y() - v1.get_y()) / (v4.get_y() - v3.get_y())) < epsilon &&
-		fabs((v2.get_x() - v1.get_x()) / (v4.get_x() - v3.get_x()) -
-		(v2.get_z() - v1.get_z()) / (v4.get_z() - v3.get_z())) < epsilon)
+	Vector3D n1 = (v2 - v1).normalize();
+	Vector3D n2 = (v4 - v3).normalize();
+	if (fabs(n1.get_x()-n2.get_x())< epsilon && 
+		fabs(n1.get_y() - n2.get_y()) < epsilon && 
+		fabs(n1.get_z() - n2.get_z()) < epsilon)
 	{
 		throw CollinearExp{};
 	}
