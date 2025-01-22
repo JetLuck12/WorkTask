@@ -5,7 +5,8 @@
 #include "Segment3D.h"
 #include "Vector3D.h"
 
-class Intersection_manager
+//class for intersect check
+class Intersection_manager final
 {
 public:
 	Intersection_manager() = delete;
