@@ -15,32 +15,18 @@ double Vector3D::get_z() const
 	return Z;
 }
 
-Vector3D& Vector3D::operator+(const Vector3D& vec)
-{
-		X += vec.get_x();
-		Y += vec.get_y();
-		Z += vec.get_z();
-		return *this;
-}
-
-Vector3D& Vector3D::operator-(const Vector3D& vec)
-{
-	X -= vec.get_x();
-	Y -= vec.get_y();
-	Z -= vec.get_z();
-	return *this;
-}
-
-double Vector3D::get_length() const
+double Vector3D::length()
 {
 	return X * X + Y * Y + Z * Z;
 }
 
-Vector3D& Vector3D::operator*(double a)
+Vector3D Vector3D::normalize()
 {
-	X *= a;
-	Y *= a;
-	Z *= a;
-	return *this;
+	double len = length();
+	return { X / len, Y / len, Z / len };
 }
 
+Vector3D Vector3D::operator-(const Vector3D& vec) const
+{
+	return Vector3D{ X - vec.get_x(), Y - vec.get_y(), Z - vec.get_z() };
+}

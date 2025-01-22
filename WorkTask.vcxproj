@@ -138,6 +138,7 @@
     <ClCompile Include="WorkTask.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="exceptions.h" />
     <ClInclude Include="Intersection_manager.h" />
     <ClInclude Include="Segment3D.h" />
     <ClInclude Include="Vector3D.h" />

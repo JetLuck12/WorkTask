@@ -10,7 +10,6 @@ public:
 	~Segment3D() = default;
 	const Vector3D& get_start_vector() const;
 	const Vector3D& get_end_vector() const;
-	double get_length() const;
 private:
 	Vector3D start;
 	Vector3D end;
