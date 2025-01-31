@@ -15,7 +15,7 @@ TEST(NonIntersect3D, Test2)
 {
 	Segment3D seg1{ Vector3D{0,0,0}, Vector3D{1,0,0} };
 	Segment3D seg2{ Vector3D{0,1,0}, Vector3D{1,1,0} };
-	ASSERT_THROW(Intersection_manager::Intersect(seg1, seg2), CollinearExp);
+	ASSERT_THROW(Intersection_manager::Intersect(seg1, seg2), NotIntersect);
 }
 
 TEST(NonIntersect3D, Test3)

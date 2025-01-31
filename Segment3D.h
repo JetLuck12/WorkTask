@@ -10,6 +10,7 @@ public:
 	~Segment3D() = default;
 	const Vector3D& get_start_vector() const;
 	const Vector3D& get_end_vector() const;
+	Vector3D v_mult(const Segment3D& seg) const;
 private:
 	Vector3D start;
 	Vector3D end;
