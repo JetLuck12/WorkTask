@@ -44,41 +44,39 @@ double Intersection_manager::get_determinant(const std::vector<std::vector<doubl
 std::pair<double, double> Intersection_manager::get_params(const Segment3D& first, const Segment3D& second)
 {
 	//try to solve system of equations by Kramer's method
-	//a11 * u + a12 * v = c1
-	//a21 * u + a22 * v = c2
-	//a31 * u + a32 * v = c3
-	Vector3D vec1_1 = first.get_start_vector();
-	Vector3D vec1_2 = first.get_end_vector();
-	Vector3D vec2_1 = second.get_start_vector();
-	Vector3D vec2_2 = second.get_end_vector();
+	//ax * u + bx * v = cx
+	//ay * u + by * v = cy
+	//az * u + bz * v = cz
+	Vector3D a = first.get_end_vector() - first.get_start_vector();
+	Vector3D b = second.get_end_vector() - second.get_start_vector();
+	Vector3D c = second.get_start_vector() - first.get_start_vector();
 
 	//trying to fing good lines for system (det != 0)
 
-	std::vector<std::vector<double>> left_part{ {vec1_2.get_x() - vec1_1.get_x(), - vec2_2.get_x() + vec2_1.get_x()},
-											{vec1_2.get_y() - vec1_1.get_y(), - vec2_2.get_y() + vec2_1.get_y()} };
-
-	double det = get_determinant(left_part);
-
+	std::vector<std::vector<double>> left_part{ {a.get_x(), - b.get_x()},
+											{a.get_y(), - b.get_y()} };
 	std::vector<std::vector<double>> u_part;
 	std::vector<std::vector<double>> v_part;
+
+	double det = get_determinant(left_part);
 
 	if (fabs(det) < epsilon)
 	{
 		//bad coords, trying other
-		left_part = { {vec1_2.get_x() - vec1_1.get_x(), - vec2_2.get_x() + vec2_1.get_x()},
-					{vec1_2.get_z() - vec1_1.get_z(), - vec2_2.get_z() + vec2_1.get_z()} };
+		left_part = { {a.get_x(), -b.get_x()},
+					{a.get_z(), -b.get_z()} };
 		det = get_determinant(left_part);
 		if (fabs(det) < epsilon)
 		{
 			// bad coords again, trying other
-			left_part = { {vec1_2.get_y() - vec1_1.get_y(), - vec2_2.get_y() + vec2_1.get_y()},
-						{vec1_2.get_z() - vec1_1.get_z(), - vec2_2.get_z() + vec2_1.get_z()} };
+			left_part = { {a.get_y(), -b.get_y()},
+						{a.get_z(), -b.get_z()} };
 
-			u_part = { {vec2_1.get_y() - vec1_1.get_y(), - vec2_2.get_y() + vec2_1.get_y()},
-						{vec2_1.get_z() - vec1_1.get_z(), - vec2_2.get_z() + vec2_1.get_z()} };
+			u_part = { {c.get_y(),  -b.get_y()},
+						{c.get_z(), -b.get_z()} };
 
-			v_part = { {vec1_2.get_y() - vec1_1.get_y(), vec2_1.get_y() - vec1_1.get_y()},
-						{vec1_2.get_z() - vec1_1.get_z(), vec2_1.get_z() - vec1_1.get_z()} };
+			v_part = { {a.get_y(), c.get_y()},
+						{a.get_z(), c.get_z()} };
 
 
 			// this det is not zero, otherwise segments are collinear
@@ -86,20 +84,20 @@ std::pair<double, double> Intersection_manager::get_params(const Segment3D& firs
 		}
 		else
 		{
-			u_part = { {vec2_1.get_x() - vec1_1.get_x(), - vec2_2.get_x() + vec2_1.get_x()},
-						{vec2_1.get_z() - vec1_1.get_z(), - vec2_2.get_z() + vec2_1.get_z()} };
+			u_part = { {c.get_x(), - b.get_x()},
+						{c.get_z(), -b.get_z()} };
 
-			v_part = { {vec1_2.get_x() - vec1_1.get_x(), vec2_1.get_x() - vec1_1.get_x()},
-						{vec1_2.get_z() - vec1_1.get_z(), vec2_1.get_z() - vec1_1.get_z()} };
+			v_part = { {a.get_x(), c.get_x()},
+						{a.get_z(), c.get_z()} };
 		}
 	}
 	else
 	{
-		u_part = { {vec2_1.get_x() - vec1_1.get_x(), - vec2_2.get_x() + vec2_1.get_x()},
-					{vec2_1.get_y() - vec1_1.get_y(), - vec2_2.get_y() + vec2_1.get_y()} };
+		u_part = { {c.get_x(), -b.get_x()},
+					{c.get_y(), -b.get_y()} };
 
-		v_part = { {vec1_2.get_x() - vec1_1.get_x(), vec2_1.get_x() - vec1_1.get_x()},
-					{vec1_2.get_y() - vec1_1.get_y(), vec2_1.get_y() - vec1_1.get_y()} };
+		v_part = { {a.get_x(), c.get_x()},
+					{a.get_z(), c.get_z()} };
 	}
 
 	return { get_determinant(u_part) / det, get_determinant(v_part) / det };
